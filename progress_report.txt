@@ -1,0 +1,26 @@
+AssetFlow – Odoo Hackathon Progress Report
+
+AssetFlow is an enterprise asset management system developed to help organizations efficiently manage their physical 
+assets, departments, employees, allocations, and maintenance activities. The project follows a structured database 
+design with well-defined relationships between departments, employees, asset categories, assets, allocations, and 
+maintenance requests.
+
+During the hackathon, we successfully completed both the frontend and backend development to a near-production MVP 
+stage. The frontend was designed with a modern enterprise-grade user interface, including responsive dashboards, 
+management screens, and intuitive workflows for all major modules. On the backend, Django was used to build the 
+application logic, database models, CRUD operations, validation rules, business workflows, and API endpoints.
+
+The implemented modules include complete management of departments, asset categories, assets, employee profiles, 
+asset allocations, and maintenance requests. Asset allocation follows business rules where only available assets 
+can be assigned, and asset status is automatically updated during allocation and restored upon return. This ensures data consistency while preventing duplicate allocations and enforcing workflow automation.
+
+A live dashboard was also implemented to display key organizational statistics such as total assets, available 
+assets, allocated assets, maintenance assets, departments, categories, employees, and recent activities. 
+Additionally, JSON API endpoints were prepared to enable communication between the backend and the frontend.
+
+By the end of the development period, the core application was substantially complete. The only major task 
+remaining was integrating the already completed frontend with the completed backend through the prepared API endpoints. Due to the submission deadline, this integration phase could not be fully completed, but both components were individually functional and ready to be connected.
+
+The project was built using Django, Python, SQLite, React, Node.js, HTML, CSS, JavaScript/TypeScript, and Git. 
+Overall, AssetFlow demonstrates a scalable enterprise architecture, relational database design, business rule 
+implementation, workflow automation, and a clean user experience suitable for organizational asset management.
