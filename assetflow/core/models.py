@@ -137,3 +137,31 @@ class Allocation(TimeStampedModel):
 
     def __str__(self):
         return f"{self.asset} -> {self.employee}"
+
+class MaintenanceRequest(TimeStampedModel):
+    asset = models.ForeignKey(
+        Asset,
+        on_delete=models.CASCADE
+    )
+
+    reported_by = models.ForeignKey(
+        EmployeeProfile,
+        on_delete=models.CASCADE
+    )
+
+    issue = models.TextField()
+
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ("OPEN", "Open"),
+            ("RESOLVED", "Resolved")
+        ],
+        default="OPEN"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.asset.name
+

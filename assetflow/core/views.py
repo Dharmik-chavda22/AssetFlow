@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Q
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
 from .models import *
 from .forms import *
@@ -265,9 +267,22 @@ def dashboard(request):
         "maintenance_assets": Asset.objects.filter(status="MAINTENANCE").count(),
         "departments": Department.objects.count(),
         "categories": AssetCategory.objects.count(),
+        "employees": EmployeeProfile.objects.count(),
+
+        "recent_assets": Asset.objects.order_by("-created_at")[:5],
+
+        "recent_allocations": Allocation.objects.select_related(
+            "asset",
+            "employee",
+            "employee__user"
+        ).order_by("-allocated_on")[:5],
     }
 
-    return render(request, "dashboard/dashboard.html", context)
+    return render(
+        request,
+        "dashboard/dashboard.html",
+        context
+    )
 
 def allocation_list(request):
     allocations = Allocation.objects.select_related(
@@ -317,13 +332,100 @@ def allocation_return(request, pk):
     )
 
     allocation.returned = True
-    allocation.save()
+    allocation.save(update_fields=["returned"])
 
     asset = allocation.asset
     asset.status = "AVAILABLE"
-    asset.save()
+    asset.save(update_fields=["status"])
 
     messages.success(request, "Asset returned successfully.")
 
     return redirect("allocation_list")
+
+def dashboard_api(request):
+    return JsonResponse({
+        "total_assets": Asset.objects.count(),
+        "available_assets": Asset.objects.filter(status="AVAILABLE").count(),
+        "allocated_assets": Asset.objects.filter(status="ALLOCATED").count(),
+        "maintenance_assets": Asset.objects.filter(status="MAINTENANCE").count(),
+        "departments": Department.objects.count(),
+        "categories": AssetCategory.objects.count(),
+        "employees": EmployeeProfile.objects.count(),
+    })
+
+def assets_api(request):
+
+    assets = []
+
+    for asset in Asset.objects.select_related("category", "department"):
+
+        assets.append({
+            "id": asset.id,
+            "asset_tag": asset.asset_tag,
+            "name": asset.name,
+            "category": asset.category.name,
+            "department": asset.department.name,
+            "status": asset.status,
+            "condition": asset.condition,
+            "location": asset.location,
+        })
+
+    return JsonResponse(assets, safe=False)
+
+def departments_api(request):
+
+    data = list(
+        Department.objects.values(
+            "id",
+            "name",
+            "code",
+            "status"
+        )
+    )
+
+    return JsonResponse(data, safe=False)
+
+def categories_api(request):
+
+    data = list(
+        AssetCategory.objects.values(
+            "id",
+            "name",
+            "description"
+        )
+    )
+
+    return JsonResponse(data, safe=False)
+
+def allocations_api(request):
+
+    data = []
+
+    allocations = Allocation.objects.select_related(
+        "asset",
+        "employee",
+        "employee__user"
+    )
+
+    for allocation in allocations:
+
+        data.append({
+
+            "id": allocation.id,
+
+            "asset": allocation.asset.name,
+
+            "asset_tag": allocation.asset.asset_tag,
+
+            "employee": allocation.employee.user.username,
+
+            "allocated_on": allocation.allocated_on,
+
+            "expected_return": allocation.expected_return,
+
+            "returned": allocation.returned,
+
+        })
+
+    return JsonResponse(data, safe=False)
 

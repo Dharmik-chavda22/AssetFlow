@@ -54,3 +54,11 @@ class AllocationAdmin(admin.ModelAdmin):
     list_filter = (
         "returned",
     )
+
+@admin.register(MaintenanceRequest)
+class MaintenanceAdmin(admin.ModelAdmin):
+    list_display = (
+        "asset",
+        "reported_by",
+        "status",
+    )

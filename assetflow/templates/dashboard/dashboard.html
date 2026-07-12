@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+<h1>AssetFlow Dashboard</h1>
+
+<hr>
+
+<h2>Statistics</h2>
+
+<p>Total Assets : {{ total_assets }}</p>
+
+<p>Available : {{ available_assets }}</p>
+
+<p>Allocated : {{ allocated_assets }}</p>
+
+<p>Maintenance : {{ maintenance_assets }}</p>
+
+<p>Departments : {{ departments }}</p>
+
+<p>Categories : {{ categories }}</p>
+
+<p>Employees : {{ employees }}</p>
+
+<hr>
+
+<h2>Recent Assets</h2>
+
+{% for asset in recent_assets %}
+
+<p>
+
+{{ asset.asset_tag }}
+
+|
+
+{{ asset.name }}
+
+|
+
+{{ asset.status }}
+
+</p>
+
+{% empty %}
+
+<p>No Assets</p>
+
+{% endfor %}
+
+<hr>
+
+<h2>Recent Allocations</h2>
+
+{% for allocation in recent_allocations %}
+
+<p>
+
+{{ allocation.asset.asset_tag }}
+
+|
+
+{{ allocation.asset.name }}
+
+→
+
+{{ allocation.employee }}
+
+</p>
+
+{% empty %}
+
+<p>No Allocations</p>
+
+{% endfor %}
+
+</body>
+
+</html>

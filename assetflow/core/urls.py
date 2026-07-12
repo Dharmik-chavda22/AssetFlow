@@ -78,4 +78,14 @@ urlpatterns = [
         name="allocation_return",
     ),
 
+    path("api/dashboard/", views.dashboard_api),
+
+    path("api/assets/", views.assets_api),
+
+    path("api/departments/", views.departments_api),
+
+    path("api/categories/", views.categories_api),
+
+    path("api/allocations/", views.allocations_api),
+
 ]

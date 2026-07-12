@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Department, AssetCategory, Asset, Allocation
+from .models import Department, AssetCategory, Asset, Allocation, MaintenanceRequest
 
 
 class DepartmentForm(forms.ModelForm):
@@ -55,3 +55,8 @@ class AllocationForm(forms.ModelForm):
             )
 
         return asset
+
+class MaintenanceRequestForm(forms.ModelForm):
+    class Meta:
+        model = MaintenanceRequest
+        fields = "__all__"
