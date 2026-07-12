@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Categories</title>
+</head>
+<body>
+
+<h1>Categories</h1>
+
+<a href="{% url 'category_create' %}">
+    Create Category
+</a>
+
+<hr>
+
+{% for category in categories %}
+
+<p>
+
+{{ category.name }}
+
+|
+
+<a href="{% url 'category_update' category.id %}">
+Edit
+</a>
+
+|
+
+<a href="{% url 'category_delete' category.id %}">
+Delete
+</a>
+
+</p>
+
+{% empty %}
+
+<p>No categories found.</p>
+
+{% endfor %}
+
+</body>
+</html>

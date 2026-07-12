@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Departments</title>
+</head>
+<body>
+
+<h1>Departments</h1>
+
+<a href="{% url 'department_create' %}">
+    Create Department
+</a>
+
+<hr>
+
+{% for department in departments %}
+
+<p>
+
+{{ department.name }}
+
+|
+
+<a href="{% url 'department_update' department.id %}">
+Edit
+</a>
+
+|
+
+<a href="{% url 'department_delete' department.id %}">
+Delete
+</a>
+
+</p>
+
+{% empty %}
+
+<p>No departments found.</p>
+
+{% endfor %}
+
+</body>
+</html>

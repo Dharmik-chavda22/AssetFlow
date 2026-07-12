@@ -1,7 +1,7 @@
 ROLE_CHOICES = [
     ("ADMIN", "Admin"),
-    ("MANAGER", "Asset Manager"),
-    ("HEAD", "Department Head"),
+    ("ASSET_MANAGER", "Asset Manager"),
+    ("DEPARTMENT_HEAD", "Department Head"),
     ("EMPLOYEE", "Employee"),
 ]
 

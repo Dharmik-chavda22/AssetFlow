@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assets</title>
+</head>
+<body>
+
+<h1>Assets</h1>
+
+<a href="{% url 'asset_create' %}">
+    Create Asset
+</a>
+
+<hr>
+
+{% for asset in assets %}
+
+<p>
+
+{{ asset.asset_tag }}
+
+{{ asset.name }}
+
+{{ asset.category }}
+
+{{ asset.status }}
+
+|
+
+<a href="{% url 'asset_update' asset.id %}">
+Edit
+</a>
+
+|
+
+<a href="{% url 'asset_delete' asset.id %}">
+Delete
+</a>
+
+</p>
+
+{% empty %}
+
+<p>No assets found.</p>
+
+{% endfor %}
+
+</body>
+</html>
