@@ -429,3 +429,15 @@ def allocations_api(request):
 
     return JsonResponse(data, safe=False)
 
+def employees_api(request):
+    data = []
+
+    for emp in EmployeeProfile.objects.select_related("user", "department"):
+        data.append({
+            "id": emp.id,
+            "name": emp.user.get_full_name() or emp.user.username,
+            "department": emp.department.name if emp.department else "",
+            "role": emp.role,
+        })
+
+    return JsonResponse(data, safe=False)

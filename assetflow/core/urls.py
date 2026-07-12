@@ -88,4 +88,6 @@ urlpatterns = [
 
     path("api/allocations/", views.allocations_api),
 
+    path("api/employees/", views.employees_api),
+
 ]
