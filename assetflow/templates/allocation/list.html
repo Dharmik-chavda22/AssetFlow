@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Allocations</title>
+</head>
+<body>
+
+<h1>Allocations</h1>
+
+<a href="{% url 'allocation_create' %}">
+    Create Allocation
+</a>
+
+<hr>
+
+{% for allocation in allocations %}
+
+<p>
+
+{{ allocation.asset.asset_tag }}
+
+{{ allocation.asset.name }}
+
+{{ allocation.employee.user.get_full_name }}
+
+{{ allocation.employee.department }}
+
+{{ allocation.allocated_on }}
+
+{{ allocation.expected_return }}
+
+{{ allocation.returned }}
+
+</p>
+
+{% empty %}
+
+<p>No allocations found.</p>
+
+{% endfor %}
+
+</body>
+</html>

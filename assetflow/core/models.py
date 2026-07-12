@@ -114,3 +114,26 @@ class Asset(TimeStampedModel):
 
     def __str__(self):
         return f"{self.asset_tag} - {self.name}"
+
+
+class Allocation(TimeStampedModel):
+    asset = models.ForeignKey(
+        Asset,
+        on_delete=models.CASCADE
+    )
+
+    employee = models.ForeignKey(
+        EmployeeProfile,
+        on_delete=models.CASCADE
+    )
+
+    allocated_on = models.DateField(auto_now_add=True)
+
+    expected_return = models.DateField()
+
+    returned = models.BooleanField(default=False)
+
+    remarks = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.asset} -> {self.employee}"

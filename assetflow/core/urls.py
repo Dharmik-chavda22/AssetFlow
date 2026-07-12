@@ -58,4 +58,24 @@ urlpatterns = [
         name="asset_delete",
     ),
 
+    path("", views.dashboard, name="dashboard"),
+
+    path(
+        "allocations/",
+        views.allocation_list,
+        name="allocation_list",
+    ),
+
+    path(
+        "allocations/create/",
+        views.allocation_create,
+        name="allocation_create",
+    ),
+
+    path(
+        "allocations/<int:pk>/return/",
+        views.allocation_return,
+        name="allocation_return",
+    ),
+
 ]

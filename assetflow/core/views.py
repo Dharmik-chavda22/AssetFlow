@@ -257,3 +257,73 @@ def asset_delete(request, pk):
         },
     )
 
+def dashboard(request):
+    context = {
+        "total_assets": Asset.objects.count(),
+        "available_assets": Asset.objects.filter(status="AVAILABLE").count(),
+        "allocated_assets": Asset.objects.filter(status="ALLOCATED").count(),
+        "maintenance_assets": Asset.objects.filter(status="MAINTENANCE").count(),
+        "departments": Department.objects.count(),
+        "categories": AssetCategory.objects.count(),
+    }
+
+    return render(request, "dashboard/dashboard.html", context)
+
+def allocation_list(request):
+    allocations = Allocation.objects.select_related(
+        "asset",
+        "employee",
+        "employee__user"
+    )
+
+    return render(
+        request,
+        "allocation/list.html",
+        {
+            "allocations": allocations
+        }
+    )
+
+def allocation_create(request):
+
+    form = AllocationForm(request.POST or None)
+
+    if form.is_valid():
+
+        allocation = form.save()
+
+        asset = allocation.asset
+        asset.status = "ALLOCATED"
+        asset.save()
+
+        messages.success(request, "Asset allocated successfully.")
+
+        return redirect("allocation_list")
+
+    return render(
+        request,
+        "allocation/form.html",
+        {
+            "form": form,
+            "title": "Allocate Asset"
+        }
+    )
+
+def allocation_return(request, pk):
+
+    allocation = get_object_or_404(
+        Allocation,
+        pk=pk
+    )
+
+    allocation.returned = True
+    allocation.save()
+
+    asset = allocation.asset
+    asset.status = "AVAILABLE"
+    asset.save()
+
+    messages.success(request, "Asset returned successfully.")
+
+    return redirect("allocation_list")
+

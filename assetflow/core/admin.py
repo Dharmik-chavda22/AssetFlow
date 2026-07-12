@@ -40,3 +40,17 @@ class AssetAdmin(admin.ModelAdmin):
         "category",
         "department",
     )
+
+@admin.register(Allocation)
+class AllocationAdmin(admin.ModelAdmin):
+    list_display = (
+        "asset",
+        "employee",
+        "allocated_on",
+        "expected_return",
+        "returned",
+    )
+
+    list_filter = (
+        "returned",
+    )

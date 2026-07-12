@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+
+<h1>{{ title }}</h1>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+
+        Save
+
+    </button>
+
+</form>
+
+<a href="{% url 'allocation_list' %}">
+Back
+</a>
+
+</body>
+</html>
